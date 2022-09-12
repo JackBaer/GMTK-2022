@@ -12,13 +12,12 @@ void init() {
   //Initialize Window
   window -> init();
 
-  while(!window -> quitFlag) {
-   
+  while(!(window -> quitRequested())) { 
     //Handle events (if any) in queue
     while(SDL_PollEvent(&e) != 0) {
       //If player quits, break game loop
       if(e.type == SDL_QUIT) {
-        window -> quitFlag = true;
+        window -> requestQuit();
       }
     } 
     //Clear before drawing

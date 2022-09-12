@@ -15,6 +15,8 @@ class GameWindow {
     int init();
     void render();
     void clear();
+    bool quitRequested();
+    void requestQuit();
 
   private:
     //Member data of window dimensions for resizing
@@ -22,10 +24,6 @@ class GameWindow {
     int windowWidth;
 
     //Flags for window focus/state
-    bool hasKeyboardFocus;
-    bool hasMouseFocus;
-    bool isFullScreen;
-    bool isMinimized;
     bool quitFlag;
 };
 

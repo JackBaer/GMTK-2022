@@ -26,6 +26,14 @@ int GameWindow::init() {
   return 1;
 }
 
+bool GameWindow::quitRequested() {
+  return quitFlag;
+}
+
+void GameWindow::requestQuit() {
+  quitFlag = true;
+}
+
 void GameWindow::render() {
   SDL_RenderPresent(renderer);
 }
