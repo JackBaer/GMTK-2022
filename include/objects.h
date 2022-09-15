@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <string>
 #include "definitions.h"
 
 class GameWindow {
@@ -27,5 +28,46 @@ class GameWindow {
     bool quitFlag;
 };
 
+
+class Texture {
+  public:
+    
+    Texture();
+    ~Texture();
+
+    void free();
+
+    void createTexture(std::string path, SDL_Renderer* renderer);
+
+    //void setColor(Uint8 red, Uint8 green, Uint8 blue);
+    //void setAlpha(Uint8 alpha);
+
+    void render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip);
+
+    int getWidth();
+    int getHeight();
+
+  private:
+    SDL_Texture* texture;
+
+    int width;
+    int height;
+};
+
+
+class Tile: public Texture {
+  public:
+    Tile(int x, int y, int type);
+    void getTexture(SDL_Renderer* renderer);
+    
+    void render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip);
+
+    int getType();
+    SDL_Rect getCollider();
+  
+  private:
+    SDL_Rect collisionBox;
+    int tileType;
+};
 //End header
 #endif
