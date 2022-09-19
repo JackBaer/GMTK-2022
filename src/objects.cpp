@@ -103,7 +103,7 @@ int Texture::getHeight() {
 }
 /**************************************************/
 
-Tile::Tile(int x, int y, int type) {
+Tile::Tile(int x, int y, TileType type) {
   collisionBox.x = x;
   collisionBox.y = y;
 
@@ -126,16 +126,10 @@ void Tile::getTexture(SDL_Renderer* renderer) {
 }
 
 void Tile::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
-  
-  const int TILE_WOOD = 0;
+  SDL_Rect tileClip;
+  tileClip = sliceTile(tileType);
 
-  SDL_Rect tileClips;
-  tileClips.x = 16;
-  tileClips.y = 48;
-  tileClips.w = TILE_WIDTH;
-  tileClips.h = TILE_HEIGHT;
-
-  Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClips);
+  Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
 }
 
 int Tile::getType() {
