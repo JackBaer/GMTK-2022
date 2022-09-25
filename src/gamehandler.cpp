@@ -5,7 +5,6 @@ GameWindow* window = new GameWindow();
 
 Tile* tile1 = new Tile(0, 0, wood);
 Tile* tile2 = new Tile(32, 32, dirt);
-
 //Event Handler
 SDL_Event e;
 

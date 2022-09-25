@@ -1,6 +1,9 @@
 #include "objects.h"
+#include <iostream>
+#include <string>
 
 
+//Constructor
 GameWindow::GameWindow(void) {
   window = NULL;
   renderer = NULL;
@@ -8,6 +11,7 @@ GameWindow::GameWindow(void) {
   quitFlag = NULL;
 }
 
+//Initialize main game window
 int GameWindow::init() {
   //Initialize desired SDL subsystems
   SDL_Init(SDL_INIT_VIDEO);
@@ -20,30 +24,37 @@ int GameWindow::init() {
 
   quitFlag = false;
 
+  Tile::sliceTiles();
+
   window = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   return 1;
 }
 
+//Check if window needs to be closed
 bool GameWindow::quitRequested() {
   return quitFlag;
 }
 
+//Request window close
 void GameWindow::requestQuit() {
   quitFlag = true;
 }
 
+//Render to window
 void GameWindow::render() {
   SDL_RenderPresent(renderer);
 }
 
+//Clear window contents
 void GameWindow::clear() {
   SDL_RenderClear(renderer);
 }
 
 /**************************************************/
 
+//Constructor
 Texture::Texture() {
   texture = NULL;
 
@@ -51,6 +62,7 @@ Texture::Texture() {
   height = 0;
 }
 
+//Free texture
 void Texture::free() {
   if(texture != NULL) {
     SDL_DestroyTexture(texture);
@@ -60,11 +72,12 @@ void Texture::free() {
   }
 }
 
+//Destructor
 Texture::~Texture() {
   free();
 }
 
-
+//Create SDL_Texture from file at provided file path
 void Texture::createTexture(std::string path, SDL_Renderer* renderer) {
   free();
 
@@ -83,6 +96,7 @@ void Texture::createTexture(std::string path, SDL_Renderer* renderer) {
 }
 
 
+//Render texture to provided renderer with any provided modifiers
 void Texture::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
   SDL_Rect destinationRect = {x, y, width, height};
 
@@ -94,16 +108,19 @@ void Texture::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL
   SDL_RenderCopyEx(renderer, texture, clip, &destinationRect, angle, center, flip);
 }
 
+//Access width member
 int Texture::getWidth() {
   return width;
 }
 
+//Access height member
 int Texture::getHeight() {
   return height;
 }
 /**************************************************/
 
-Tile::Tile(int x, int y, TileType type) {
+//Construct Tile object and create collisionBox
+Tile::Tile(int x, int y, TileID type) {
   collisionBox.x = x;
   collisionBox.y = y;
 
@@ -113,29 +130,57 @@ Tile::Tile(int x, int y, TileType type) {
   tileType = type;
 }
 
+//Load the tileset into the provided renderer
 void Tile::getTexture(SDL_Renderer* renderer) {
-  const int TILE_WOOD = 0;
-
-  SDL_Rect tileClips;
-  tileClips.x = 16;
-  tileClips.y = 48;
-  tileClips.w = TILE_WIDTH;
-  tileClips.h = TILE_HEIGHT;
-
   createTexture("assets/tiles.png", renderer);
 }
 
+//Get Tile texture from tileset (based on provided tileType) and render to provided renderer
 void Tile::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
-  SDL_Rect tileClip;
-  tileClip = sliceTile(tileType);
-
-  Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
+  //SDL_Rect tileClip;
+  //tileClip = sliceTile(tileType, {right, top, left, bottom});
+  //Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
 }
 
-int Tile::getType() {
+//Access tileType member
+TileID Tile::getType() {
   return tileType;
 }
 
+//Access collisionBox member
 SDL_Rect Tile::getCollider() {
   return collisionBox;
+}
+
+//Static method to write Tile variant data to Tileset.txt
+void Tile::sliceTiles() {
+  clipTiles();
+  std::ofstream file;
+  //Open file and clear its contents, then close file
+  file.open("Tileset.txt", std::ofstream::out | std::ofstream::trunc);
+  file.close();
+  //Open file in append mode to allow writing of Tile data
+  file.open("Tileset.txt", std::ios::app);
+  //Iterate through every Tile ID, and create variants of each type of tile
+  for(int i = 0; i <= TileID::TileID_MAX; i++) {
+   
+    //Take SDL_Rect clip of current TileID
+    SDL_Rect currentClip = baseClips[i];
+    
+    //Convert each property of clip to std::string
+    std::string x = std::to_string(currentClip.x);
+    std::string y = std::to_string(currentClip.y);
+    std::string w = std::to_string(currentClip.w);
+    std::string h = std::to_string(currentClip.h);
+
+    //Write each clip property to file, converting the std::string properties to C strings
+    file.write(x.c_str(), x.length());
+    file << " ";
+    file.write(y.c_str(), y.length());
+    file << " ";
+    file.write(w.c_str(), w.length());
+    file << " ";
+    file.write(h.c_str(), h.length());
+    file << std::endl;
+  }
 }

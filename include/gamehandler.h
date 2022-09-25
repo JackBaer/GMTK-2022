@@ -9,5 +9,7 @@
 
 void init();
 
+void loadTilemap();
+
 //End header
 #endif

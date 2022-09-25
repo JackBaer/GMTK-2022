@@ -1,21 +1,76 @@
 #include "definitions.h"
-#include <vector>
+#include <iostream>
 
-//std::vector<SDL_Rect> tileClips;
+SDL_Rect baseClips[TileID_MAX];
+
+void clipTiles() {
+  SDL_Rect woodRect;
+  woodRect.x = 16;
+  woodRect.y = 48;
+  woodRect.w = TILE_WIDTH;
+  woodRect.h = TILE_HEIGHT;
+  baseClips[wood] = woodRect;
+
+  SDL_Rect dirtRect;
+  dirtRect.x = 80;
+  dirtRect.y = 48;
+  dirtRect.w = TILE_WIDTH;
+  dirtRect.h = TILE_HEIGHT;
+  baseClips[dirt] = dirtRect;
+}
 
 /*
-tileClips[0].x = 16;
-tileClips[0].y = 48;
-tileClips[0].w = TILE_WIDTH;
-tileClips[0].h = TILE_HEIGHT;
+TileType::TileType(TileID id, std::vector<TileArgument> arguments) {
+  tileID = id;
+  tileArguments = arguments;
+}
 */
+/*
+void sliceTiles() {
+  //Open tileset file in append mode
+  std::ofstream file;
+  file.open("Tileset.txt", std::ofstream::out | std::ofstream::trunc);
+  file.close();
+  file.open("Tileset.txt", std::ios::app);
 
-//tileClips.push_back(wood);
-
-SDL_Rect sliceTile(TileType tileType) {
+  char c[]="Sample text";
+  //Iterate through every Tile ID
+  for(int i = 0; i <= TileID::TileID_MAX; i++) {
+    file.write(c, 4);
+  }
+}
+*/
+/*
+SDL_Rect sliceTile(TileID id, std::vector<TileArgument> arguments) {
   SDL_Rect tileClip;
 
-  switch(tileType) {
+  bool topFlag = false;
+  bool rightFlag = false;
+  bool bottomFlag = false;
+  bool leftFlag = false;
+  bool cornerFlag = false;
+
+  for(int i = 0; i < arguments.size(); i++) {
+    switch(arguments[i]) {
+      case top:
+        topFlag = true;
+        break;
+      case right:
+        rightFlag = true;
+        break;
+      case bottom:
+        bottomFlag = true;
+        break;
+      case left:
+        leftFlag = true;
+        break;
+      case corner:
+        cornerFlag = true;
+        break;
+    }
+  }
+
+  switch(id) {
     case wood:
       tileClip.x = 16;
       tileClip.y = 48;
@@ -30,5 +85,22 @@ SDL_Rect sliceTile(TileType tileType) {
       break;
   }
 
+  if(topFlag) {
+    tileClip.y -= 4;
+    tileClip.h += 4;
+  }
+  if(rightFlag) {
+    tileClip.w += 4;
+  }
+  if(bottomFlag) {
+    tileClip.h += 4;
+  }
+  if(leftFlag) {
+    tileClip.x -= 4;
+    tileClip.w += 4;
+  }
+  //FUNCTIONALITY FOR CORNERS HERE
+
   return tileClip;
 }
+*/

@@ -57,18 +57,20 @@ class Texture {
 
 class Tile: public Texture {
   public:
-    Tile(int x, int y, TileType type);
+    Tile(int x, int y, TileID type);
 
     void getTexture(SDL_Renderer* renderer);
     
     void render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
-    int getType();
+    TileID getType();
     SDL_Rect getCollider();
-  
+ 
+    static void sliceTiles();
+
   private:
     SDL_Rect collisionBox;
-    TileType tileType;
+    TileID tileType;
 };
 //End header
 #endif
