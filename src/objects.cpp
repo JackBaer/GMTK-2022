@@ -162,7 +162,7 @@ void Tile::sliceTiles() {
   //Open file in append mode to allow writing of Tile data
   file.open("Tileset.txt", std::ios::app);
   //Iterate through every Tile ID, and create variants of each type of tile
-  for(int i = 0; i <= TileID::TileID_MAX; i++) {
+  for(int i = 0 ; i < TOTAL_TILE_SPRITES; i++) {
    
     //Take SDL_Rect clip of current TileID
     SDL_Rect currentClip = baseClips[i];
@@ -173,7 +173,10 @@ void Tile::sliceTiles() {
     std::string w = std::to_string(currentClip.w);
     std::string h = std::to_string(currentClip.h);
 
+    std::string tileName = tileIDs[i];
     //Write each clip property to file, converting the std::string properties to C strings
+    file.write(tileName.c_str(), tileName.length());
+    file << " ";
     file.write(x.c_str(), x.length());
     file << " ";
     file.write(y.c_str(), y.length());
