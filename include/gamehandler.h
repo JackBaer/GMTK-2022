@@ -5,8 +5,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "objects.h"
-
 void init();
 
 void loadTilemap();

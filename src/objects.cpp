@@ -1,7 +1,8 @@
 #include "objects.h"
 #include <iostream>
 #include <string>
-
+#include "definitions.h"
+#include "tileset.h"
 
 //Constructor
 GameWindow::GameWindow(void) {
@@ -119,6 +120,8 @@ int Texture::getHeight() {
 }
 /**************************************************/
 
+
+
 //Construct Tile object and create collisionBox
 Tile::Tile(int x, int y, TileID type) {
   collisionBox.x = x;
@@ -137,9 +140,10 @@ void Tile::getTexture(SDL_Renderer* renderer) {
 
 //Get Tile texture from tileset (based on provided tileType) and render to provided renderer
 void Tile::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
-  //SDL_Rect tileClip;
+  SDL_Rect tileClip;
+  tileClip = baseClips[tileType];
   //tileClip = sliceTile(tileType, {right, top, left, bottom});
-  //Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
+  Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
 }
 
 //Access tileType member

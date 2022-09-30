@@ -1,10 +1,14 @@
 #include "gamehandler.h"
+#include "objects.h"
+#include "tileset.h"
+#include <iostream>
 
 //Game Window
 GameWindow* window = new GameWindow();
 
-Tile* tile1 = new Tile(0, 0, wood);
-Tile* tile2 = new Tile(32, 32, dirt);
+Tile* tile1 = new Tile(0, 0, WOOD);
+Tile* tile2 = new Tile(32, 32, DIRT);
+
 //Event Handler
 SDL_Event e;
 

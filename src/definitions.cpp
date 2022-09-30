@@ -1,7 +1,25 @@
 #include "definitions.h"
 #include <iostream>
+#include "tileset.h"
 
-SDL_Rect baseClips[TileID_MAX];
+/*
+#define TILE_IDS \
+X(WOOD, "wood") \
+X(DIRT, "dirt")
+
+#define X(tile, name) name,
+char const *tileIDs[] = {
+  TILE_IDS
+};
+#undef X
+#define X(tile, name) tile,
+enum TileID : size_t {
+  TILE_IDS
+};
+#undef X
+*/
+
+SDL_Rect baseClips[TOTAL_TILE_SPRITES];
 
 void clipTiles() {
   SDL_Rect woodRect;
@@ -9,14 +27,14 @@ void clipTiles() {
   woodRect.y = 48;
   woodRect.w = TILE_WIDTH;
   woodRect.h = TILE_HEIGHT;
-  baseClips[wood] = woodRect;
+  baseClips[TileID::WOOD] = woodRect;
 
   SDL_Rect dirtRect;
   dirtRect.x = 80;
   dirtRect.y = 48;
   dirtRect.w = TILE_WIDTH;
   dirtRect.h = TILE_HEIGHT;
-  baseClips[dirt] = dirtRect;
+  baseClips[TileID::DIRT] = dirtRect;
 }
 
 /*

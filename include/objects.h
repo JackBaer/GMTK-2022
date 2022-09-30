@@ -5,7 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
-#include "definitions.h"
+
 
 class GameWindow {
   public:
@@ -54,6 +54,10 @@ class Texture {
     int height;
 };
 
+
+//Tiles
+
+enum TileID : size_t;
 
 class Tile: public Texture {
   public:
