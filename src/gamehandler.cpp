@@ -1,13 +1,12 @@
 #include "gamehandler.h"
+#include "definitions.h"
 #include "objects.h"
 #include "tileset.h"
 #include <iostream>
+#include <vector>
 
 //Game Window
 GameWindow* window = new GameWindow();
-
-Tile* tile1 = new Tile(0, 0, WOOD);
-Tile* tile2 = new Tile(32, 32, DIRT);
 
 //Event Handler
 SDL_Event e;
@@ -16,6 +15,9 @@ SDL_Event e;
 void init() {
   //Initialize Window
   window -> init();
+
+  std::vector<Tile> tileset = createTileset();
+  //std::vector<Tile> tilemap = setTiles(window -> renderer, tileset);
 
   while(!(window -> quitRequested())) { 
     //Handle events (if any) in queue
@@ -29,12 +31,8 @@ void init() {
     window -> clear();
 
     //Draw Commands 
-    tile1 -> getTexture(window -> renderer);
-    tile1 -> Tile::render(window -> renderer, 0, 0, NULL, 0.0, NULL, SDL_FLIP_NONE);
-    
-    tile2 -> getTexture(window -> renderer);
-    tile2 -> Tile::render(window -> renderer, 0, 0, NULL, 0.0, NULL, SDL_FLIP_NONE);
-
+    setTiles(window -> renderer, tileset);
+;
     //Render to window
     window -> render();
 

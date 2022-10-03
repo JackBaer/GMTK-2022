@@ -19,10 +19,15 @@
 #define TILE_WIDTH 32
 #define TILE_HEIGHT 32
 
+#define MAP_WIDTH 6
+#define MAP_HEIGHT 6
+
 //Tiles
 extern SDL_Rect baseClips[TOTAL_TILE_SPRITES];
 
 void clipTiles();
+
+
 
 //End header
 #endif

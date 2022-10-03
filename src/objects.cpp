@@ -25,7 +25,7 @@ int GameWindow::init() {
 
   quitFlag = false;
 
-  Tile::sliceTiles();
+  clipTiles();
 
   window = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -142,7 +142,6 @@ void Tile::getTexture(SDL_Renderer* renderer) {
 void Tile::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
   SDL_Rect tileClip;
   tileClip = baseClips[tileType];
-  //tileClip = sliceTile(tileType, {right, top, left, bottom});
   Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
 }
 
@@ -156,38 +155,3 @@ SDL_Rect Tile::getCollider() {
   return collisionBox;
 }
 
-//Static method to write Tile variant data to Tileset.txt
-void Tile::sliceTiles() {
-  clipTiles();
-  std::ofstream file;
-  //Open file and clear its contents, then close file
-  file.open("Tileset.txt", std::ofstream::out | std::ofstream::trunc);
-  file.close();
-  //Open file in append mode to allow writing of Tile data
-  file.open("Tileset.txt", std::ios::app);
-  //Iterate through every Tile ID, and create variants of each type of tile
-  for(int i = 0 ; i < TOTAL_TILE_SPRITES; i++) {
-   
-    //Take SDL_Rect clip of current TileID
-    SDL_Rect currentClip = baseClips[i];
-    
-    //Convert each property of clip to std::string
-    std::string x = std::to_string(currentClip.x);
-    std::string y = std::to_string(currentClip.y);
-    std::string w = std::to_string(currentClip.w);
-    std::string h = std::to_string(currentClip.h);
-
-    std::string tileName = tileIDs[i];
-    //Write each clip property to file, converting the std::string properties to C strings
-    file.write(tileName.c_str(), tileName.length());
-    file << " ";
-    file.write(x.c_str(), x.length());
-    file << " ";
-    file.write(y.c_str(), y.length());
-    file << " ";
-    file.write(w.c_str(), w.length());
-    file << " ";
-    file.write(h.c_str(), h.length());
-    file << std::endl;
-  }
-}

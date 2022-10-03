@@ -2,6 +2,8 @@
 #ifndef TILESET_H
 #define TILESET_H
 
+#include <vector>
+
 #define TILE_IDS \
 X(WOOD, "wood") \
 X(DIRT, "dirt")
@@ -17,6 +19,13 @@ enum TileID : size_t {
 };
 #undef X
 
+class Tile;
+
+//Creates a vector of Tile objects to be referenced to when building tilemap
+std::vector<Tile> createTileset();
+
+//Reads tilemap data and, using provided tileset, renders them in window at the correct positions
+std::vector<Tile> setTiles(SDL_Renderer* renderer, std::vector<Tile> tileset);
 
 //End header
 #endif
