@@ -55,26 +55,6 @@ class Texture {
 };
 
 
-//Tiles
 
-enum TileID : size_t;
-
-class Tile: public Texture {
-  public:
-    Tile(int x, int y, TileID type);
-
-    void getTexture(SDL_Renderer* renderer);
-    
-    void render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip);
-
-    TileID getType();
-    SDL_Rect getCollider();
- 
-    static void sliceTiles();
-
-  private:
-    SDL_Rect collisionBox;
-    TileID tileType;
-};
 //End header
 #endif

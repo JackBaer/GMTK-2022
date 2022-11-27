@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include "definitions.h"
-#include "tileset.h"
 
 //Constructor
 GameWindow::GameWindow(void) {
@@ -24,8 +23,6 @@ int GameWindow::init() {
   IMG_Init(IMG_INIT_PNG);
 
   quitFlag = false;
-
-  clipTiles();
 
   window = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -117,41 +114,5 @@ int Texture::getWidth() {
 //Access height member
 int Texture::getHeight() {
   return height;
-}
-/**************************************************/
-
-
-
-//Construct Tile object and create collisionBox
-Tile::Tile(int x, int y, TileID type) {
-  collisionBox.x = x;
-  collisionBox.y = y;
-
-  collisionBox.w = TILE_WIDTH;
-  collisionBox.h = TILE_HEIGHT;
-
-  tileType = type;
-}
-
-//Load the tileset into the provided renderer
-void Tile::getTexture(SDL_Renderer* renderer) {
-  createTexture("assets/tiles.png", renderer);
-}
-
-//Get Tile texture from tileset (based on provided tileType) and render to provided renderer
-void Tile::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
-  SDL_Rect tileClip;
-  tileClip = baseClips[tileType];
-  Texture::render(renderer, collisionBox.x, collisionBox.y, &tileClip);
-}
-
-//Access tileType member
-TileID Tile::getType() {
-  return tileType;
-}
-
-//Access collisionBox member
-SDL_Rect Tile::getCollider() {
-  return collisionBox;
 }
 
