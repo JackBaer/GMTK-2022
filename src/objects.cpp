@@ -5,9 +5,11 @@
 
 //Constructor
 GameWindow::GameWindow(void) {
+  //Members to hold SDL Window and Renderer for game window
   window = NULL;
   renderer = NULL;
 
+  //Used to determine when user exits window
   quitFlag = NULL;
 }
 
@@ -22,20 +24,22 @@ int GameWindow::init() {
   //Initialize PNG image support
   IMG_Init(IMG_INIT_PNG);
 
+  //Shouldn't immediately quit upon initialization
   quitFlag = false;
 
+  //Creates generic starting window with SDL flags and screen constants from definitions.h
   window = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   return 1;
 }
 
-//Check if window needs to be closed
+//Check if window needs to be closed, to be checked by main event handling system
 bool GameWindow::quitRequested() {
   return quitFlag;
 }
 
-//Request window close
+//Request window close by setting quit flag
 void GameWindow::requestQuit() {
   quitFlag = true;
 }
